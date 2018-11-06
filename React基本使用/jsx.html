@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+</head>
+
+<body>
+  <div class="box1"></div>
+  <div class="box2"></div>
+  <div class="box3"></div>
+</body>
+<script type="text/javascript" src="../js/react.js"></script>
+<script type="text/javascript" src="../js/react-dom.js"></script>
+<script type="text/javascript" src="../js/browser.min.js"></script>
+<script type="text/javascript">
+  const msg = 'I Like You';
+  const myId = 'AtgulianSheng';
+  //1.原始创建虚拟dom
+  var el = React.createElement('h2', {
+    id: myId.toLowerCase()
+  }, msg.toUpperCase());
+  //2.渲染dom虚拟
+  ReactDOM.render(el, document.querySelector('.box1'));
+</script>
+
+<script type="text/babel">
+  //1.jsx创建虚拟dom
+  var el2 = <h3 id = {myId.toLowerCase()}>{msg.toUpperCase()}</h3>;
+  //2.渲染虚拟dom
+  ReactDOM.render(el2,document.querySelector('.box2'));
+
+  //将数组放到列表中显示
+  var names = ['javascript','php','html','css'];
+  var ul = (
+    <ul>
+      {
+        names.map((name,index) => <li key = {index}> {name} </li>)
+      }
+    </ul>
+  );
+  ReactDOM.render(ul,document.querySelector('.box3'));
+</script>
+
+</html>

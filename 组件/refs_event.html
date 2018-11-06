@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <style>
+    input {
+      margin-left: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box1"></div>
+</body>
+<script type="text/javascript" src="../js/react.js"></script>
+<script type="text/javascript" src="../js/react-dom.js"></script>
+<script type="text/javascript" src="../js/browser.min.js"></script>
+<script type="text/babel">
+  class Mycomponent extends React.Component {
+    constructor(props) {
+      super(props);
+      this.showInput = this.showInput.bind(this);
+      this.blurShow = this.blurShow.bind(this);
+    }
+    showInput(){
+      const input1 = this.refs.content;
+      alert(input1.value)
+      alert(this.input2.value)
+    }
+    blurShow(event){
+      // 通过ref获取input元素
+      alert(this.input3.value)
+      //因为发生的事件就在该input元素身上，所以可以通过event来获取发生事件的该元素
+      alert(event.target.value)
+    }
+    render() {
+      // 第一种方式通过去设置ref属性来获取该元素
+      // 第二种使用函数将目标元素绑定到组件对象身上，input是当前输入框
+      return (
+        <div>
+          <input type = 'text' ref = 'content'/>
+          <input type = 'text' ref = {input => {this.input2 = input}}/>
+          <button onClick = {this.showInput}>提示内容</button>
+          <input type = 'text' placeholder= '失去焦点提示内容' onBlur = {this.blurShow} ref = {input => {this.input3 = input}}/>
+        </div>
+      );
+    }
+  }
+  
+  ReactDOM.render(<Mycomponent/>, document.querySelector('.box1'))
+</script>
+</html>

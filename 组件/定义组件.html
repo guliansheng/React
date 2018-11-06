@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+</head>
+
+<body>
+<div class="box1"></div>
+<div class="box2"></div>
+</body>
+<script type="text/javascript" src="../js/react.js"></script>
+<script type="text/javascript" src="../js/react-dom.js"></script>
+<script type="text/javascript" src="../js/browser.min.js"></script>
+<script type="text/babel">
+//1.定义组件
+//方式一：工厂函数模式（没有状态的组件）
+function Mycomponent() {
+  return <h2>方式一：工厂函数模式</h2>
+}
+//方式二：es6类组件（复杂组件）
+class Mycomponent2 extends React.Component {
+  render() {
+    return (
+      <div>
+        <h2>方式二：es6类组件（复杂组件）</h2>
+      </div>
+    )
+  }
+}
+
+//2.渲染组件
+ReactDOM.render(<Mycomponent/>, document.querySelector('.box1'))
+ReactDOM.render(<Mycomponent2/>, document.querySelector('.box2'))
+</script>
+
+</html>

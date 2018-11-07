@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    #box{
+      width: 400px;
+      height: 800px;
+      margin: 50px auto;
+      border: 1px solid #ccc;
+    }
+    #comments{
+      margin: 10px;
+    }
+    h2{
+      margin: 10px;
+      text-align: center;
+    }
+    #Tolist {
+      padding: 20px;
+    }
+    #Tolist > ul > li{
+      list-style: none;
+      display: flex;
+      flex-direction: column;      
+    }
+    #Tolist > ul >li > span {
+      padding: 6px;
+
+    }
+    #Tolist > ul >li img {
+      width: 40px;
+      height: 40px;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box"></div>
+</body>
+<script src="../js/react.js"></script>
+<script src="../js/react-dom.js"></script>
+<script src="../js/browser.min.js"></script>
+<script src="../js/prop-types.js"></script>
+<script type="text/babel">
+  class App extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+        lis: [{img:'img/1.jpg', name:'gu', content:'html is very good !'},{img:'img/2.jpg', name:'wang', content:'java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !'},{img:'img/3.jpg', name:'li', content:'php is very good !'}]
+      }
+    }
+    render() {
+      return (
+        <div id = 'comments'>
+          <h2>评论区</h2> 
+          <hr/> 
+          <Tolist lis = {this.state.lis}/>
+          <Toadd/>
+        </div> 
+      )
+    }
+  }
+  class Tolist extends React.Component {
+    render() {
+      const {lis} = this.props;
+      console.log(lis)
+      return (
+        <div id = 'Tolist'>
+          <ul>
+            {lis.map((val,index) => <li key = {index}>
+              <div class = 'img'><img src= {val.img}/></div>
+              <div class = ''
+              <span>{val.name}：</span>
+              <span>{val.content}</span>
+            </li>)}
+          </ul>
+        </div>
+      )
+    }
+  }
+  Tolist.propTypes = {
+    
+  }
+  class Toadd extends React.Component {
+    render() {
+      return (
+        <div id = 'Toadd'>
+          
+        </div>
+      )
+    }
+  }
+  ReactDOM.render(<App/>, document.querySelector('#box'))
+</script>
+
+</html>

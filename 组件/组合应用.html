@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div id = 'box'></div>
+  <div id='box'></div>
 </body>
 <script type="text/javascript" src="../js/react.js"></script>
 <script type="text/javascript" src="../js/react-dom.js"></script>
@@ -26,6 +26,7 @@
     }
     //父组件将函数传给子组件，子组件调用该函数来改变父组件的状态
     add (li){
+      console.log(this.state.lis)
       const {lis} = this.state;
       lis.unshift(li);
       this.setState({lis})
@@ -84,4 +85,5 @@
   }
   ReactDOM.render(<App/>, document.querySelector('#box'))
 </script>
+
 </html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>生命周期</title>
+</head>
+
+<body>
+<div id="box"></div>
+</body>
+<script type="text/javascript" src="../js/react.js"></script>
+<script type="text/javascript" src="../js/react-dom.js"></script>
+<script type="text/javascript" src="../js/browser.min.js"></script>
+<script type="text/javascript" src="../js/prop-types.js"></script>
+<script type="text/babel">
+  class Live extends React.Component {
+
+    //构造器，创建对象初始化
+    constructor(props) {
+      console.log('constructor');
+      super(props);
+      this.state = {
+        opacity: 1
+      };
+      this.removeComponent = this.removeComponent.bind(this)
+    }
+
+    //将要插入时调用
+    componentWillMount(){
+      console.log('componentWillMount')
+    }
+    //组件插入后调用
+    componentDidMount(){
+      //开启监听，发送ajax请求
+      console.log('componentDidMount');
+      this.timer = setInterval(() => {
+        console.log('定时器执行...');
+        let {opacity} = this.state;
+        if(opacity <= 0){
+          opacity = 1;
+        }else{
+          opacity -= .1;
+        }
+        this.setState({opacity})
+      },1000);
+    }
+
+    //组件将要更新时调用
+    componentWillUpdate() {
+      console.log('componentWillUpdate');
+    }
+
+    //最新的渲染输出提交给DOM前将会立即调用。它让你的组件能在当前的值可能要改变前获得它们。这一生命周期返回的任何值将会 作为参数被传递给componentDidUpdate(),react 16.0以上使用
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+      console.log('getSnapshotBeforeUpdate');
+      console.log('--------',this.refs.msg.scrollHeight);
+      return this.refs.msg.scrollHeight;
+    }
+     //组件更新后调用
+    componentDidUpdate(prevProps, prevState, prevScrollHeight){
+      console.log('componentDidUpdate');
+      console.log(this.refs.msg.scrollTop, prevScrollHeight);
+      this.refs.msg.scrollTop += this.refs.msg.scrollHeight - prevScrollHeight;
+    }
+
+    //组件销毁前
+    componentWillUnmount (){
+      //做收尾工作，清楚定时器等
+      console.log('componentWillUnmount');
+      clearInterval(this.timer)
+    }
+
+    //组件接收新props时调用,在组件间通信时
+    componentWillReceiveProps(newProps){
+      console.log('componentWillReceiveProps')
+    }
+
+    //组件需要渲染时调用，更新时也调用
+    render() {
+      console.log('render');
+      const {opacity, messages} = this.state;
+      console.log(messages);
+      return (
+        <div>
+          <h2 style = {{opacity}}>{this.props.msg}</h2>
+          <button onClick = {this.removeComponent}>不活了</button>
+        </div>
+      );
+    }
+    removeComponent() {
+      //销毁组件函数
+      ReactDOM.unmountComponentAtNode(document.querySelector('#box'))
+    }
+  }
+  ReactDOM.render(<Live msg = 'react太难了'/>, document.querySelector('#box'))
+</script>
+</html>

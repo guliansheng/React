@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title></title>
+  <title>props</title>
 </head>
 
 <body>
@@ -18,10 +18,10 @@
 <script type="text/javascript" src="../js/prop-types.js"></script>
 <script type="text/babel">
 
-var p1 = {name:'Tom',age:19,sex:'女'};
-var p2 = {name:'Jack'};
+const p1 = {name: 'Tom', age: 19, sex: '女'};
+const p2 = {name: 'Jack'};
 
-//方式一：
+  //方式一：
 // function Person(props) {
 //   return (
 //     <ul>
@@ -35,7 +35,7 @@ var p2 = {name:'Jack'};
 //方式二
 class Person extends React.Component {
   render() {
-    console.log(this)
+    console.log(this);
     return (
       <ul>
         <li>姓名：{this.props.name}</li>
@@ -50,14 +50,14 @@ class Person extends React.Component {
 Person.defaultProps = {
   sex: '男',
   age: 18
-}
+};
 
 //指定属性值类型和必要性
 Person.propTypes = {
   name: PropTypes.string.isRequired,
   age: PropTypes.number,
   sex: PropTypes.string
-}
+};
 
 ReactDOM.render(<Person {...p1}/>, document.querySelector('.box1'));
 ReactDOM.render(<Person name = {p2.name} age = {20} />, document.querySelector('.box2'));

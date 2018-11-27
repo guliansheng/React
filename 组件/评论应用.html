@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			font-family: '微软雅黑';
+		}
+        
+		textarea {
+			-webkit-transition: all .30s ease-in-out;
+			-moz-transition: all .30s ease-in-out;
+			-ms-transition: all .30s ease-in-out;
+			-o-transition: all .30s ease-in-out;
+			outline: none;
+			resize: none;
+		}
+        
+		textarea:focus {
+			box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+			border: 1px solid rgba(81, 203, 238, 1);
+		}
+		
+		#box {
+			width: 400px;
+			margin: 50px auto;
+			border: 1px solid #ccc;
+		}
+		
+		#comments {
+			margin: 10px;
+		}
+		
+		h2 {
+			margin: 10px;
+			text-align: center;
+		}
+		
+		#Tolist {
+			padding: 20px;
+		}
+		
+		#Tolist>ul>li {
+			list-style: none;
+			display: flex;
+			margin-bottom: 20px;
+		}
+		
+		#Tolist>ul>li>span {
+			padding: 6px;
+		}
+		
+		#Tolist>ul>li img {
+			width: 40px;
+			height: 40px;
+			
+		}
+		
+		.img {
+			position: relative;
+			margin-right: 20px;
+		}
+
+		.img span{
+			position: absolute;
+			top: 0;
+			right: -300px;
+			cursor: pointer;
+		}
+
+		.center {
+			display: flex;
+			flex-direction: column;
+		}
+		
+		.center span {
+			margin-bottom: 10px;
+			color: #666;
+			font-size: 14px;
+		}
+		
+		#Toadd {
+			height: 100px;
+			position: relative;
+		}
+		
+		#Toadd input {
+			position: absolute;
+			top: -20px;
+			width: 80px;
+		}
+		
+		#Toadd>input:first-child {
+			left: 0;
+		}
+		
+		#Toadd>input:nth-child(2) {
+			left: 100px;
+		}
+		
+		#Toadd textarea {
+			width: 100%;
+			height: 100%;
+		}
+		
+		.addC {
+			position: absolute;
+			bottom: 10px;
+			right: 20px;
+			background: #fff;
+			width: 100px;
+			-webkit-appearance: none;
+			height: 30px;
+			font-size: 12px;
+			border: 1px solid #ccc;
+			outline: none;
+			cursor: pointer;
+		}
+    </style>
+</head>
+
+<body>
+	<div id="box"></div>
+</body>
+<script src="../js/react.js"></script>
+<script src="../js/react-dom.js"></script>
+<script src="../js/browser.min.js"></script>
+<script src="../js/prop-types.js"></script>
+<script type="text/babel">
+	class App extends React.Component { 
+		constructor(props) { 
+			super(props) 
+			this.state = { 
+				lis: [{img:'img/1.jpg', name:'gu', content:'html is very good !'},{img:'img/2.jpg', name:'wang', content:'java is very good !java is very good !java is very good !javais very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !java is very good !'},{img:'img/3.jpg', name:'li',content:'php is very good !'}] 
+			} 
+			this.add = this.add.bind(this); 
+			this.remove = this.remove.bind(this); 
+		} 
+		add(comment) { 
+			console.log(comment) 
+			var {lis} = this.state; 
+			lis.push(comment); 
+			this.setState({lis}); 
+		} 
+		remove(index) {
+			var {lis} = this.state;
+			lis.splice(index,1);
+			this.setState({lis});
+		}
+		render() { 
+			return (
+				<div id='comments'>
+					<h2>评论区</h2>
+					<hr/>
+					<Tolist lis = { this.state.lis} remove = {this.remove}/>
+					<Toadd add = { this.add}/>
+				</div>
+			) 
+		} 
+	} 
+	class Tolist extends React.Component { 
+		constructor(props) {
+			super(props);
+			this.Toremove = this.Toremove.bind(this);
+		}
+		Toremove(e) {
+			const remove = this.props.remove;
+			const span = e.target;
+			var ul = span.parentNode.parentNode.parentNode;
+			var li = span.parentNode.parentNode;
+			var lis = ul.children;
+			var index = Array.prototype.indexOf.call(lis, li);
+			remove(index);
+		}
+		render() { 
+			const {lis} = this.props; 
+			console.log(lis) 
+			return (
+				<div id='Tolist'>
+					<ul>
+						{lis.map((val,index) =>
+						<li key = {index}>
+								<div className = 'img'>
+									<img src = {val.img}/>
+									<span onClick = {this.Toremove}>&times;</span>
+								</div>
+								<div className = 'center'>
+										<span><strong>{val.name}：</strong></span>
+										<span>{val.content}</span>
+								</div>
+						</li>)}
+					</ul>
+				</div>
+			) 
+		} 
+	} 
+	Tolist.propTypes = { lis: PropTypes.array.isRequired, remove: PropTypes.func} 
+	class Toadd extends React.Component { 
+		constructor(props) { 
+			super(props); 
+			this.Doadd = this.Doadd.bind(this);
+			this.addK = this.addK.bind(this);
+		} 
+		Doadd() { 
+			const add = this.props.add; 
+			console.log(add) 
+			if(!this.img.value){
+				this.img.value = '1.jpg'
+			}
+			if(!this.name.value){
+				this.name.value = 'gu'
+			}
+			var comment = {img:`./img/${this.img.value}`,name:this.name.value
+			,content:this.content.value}; 
+			console.log(comment) 
+			add(comment);
+			this.img.value = '';
+			this.name.value = '';
+			this.content.value = '';
+		}
+		addK(e) {
+			if(e.keyCode == 13 && e.ctrlKey){
+				this.Doadd();
+			}
+		} 
+		render() { 
+			return (
+				<div id='Toadd'>
+					<input ref={ val=> this.img = val} type = 'text' placeholder="用户头像"/>
+					<input ref={ val=> this.name = val} type = 'text' placeholder="用户名"/>
+					<textarea ref={ val=> this.content = val} onKeyDown = {this.addK}></textarea>
+					<button onClick={ this.Doadd} className='addC'>add comment</button>
+				</div>
+			) 
+		} 
+	} 
+	Toadd.propTypes = { add: PropTypes.func.isRequired } 
+	ReactDOM.render(<App/>, document.querySelector('#box'))
+</script>
+
+</html>
